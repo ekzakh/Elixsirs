@@ -1,12 +1,9 @@
 package com.ekzakh.elixsirs.data
 
+import com.ekzakh.elixsirs.domain.IngredientDomain
 import com.google.gson.annotations.SerializedName
 
 interface IngredientCloud {
-    interface Mapper<T> {
-        fun map(id: String, name: String): T
-    }
-
     fun <T> map(mapper: Mapper<T>): T
 
     data class Base(
@@ -16,5 +13,14 @@ interface IngredientCloud {
         private val name: String,
     ) : IngredientCloud {
         override fun <T> map(mapper: Mapper<T>): T = mapper.map(id, name)
+    }
+
+    interface Mapper<T> {
+        fun map(id: String, name: String): T
+
+        class Base : Mapper<IngredientDomain> {
+            override fun map(id: String, name: String): IngredientDomain =
+                IngredientDomain.Base(id, name)
+        }
     }
 }
