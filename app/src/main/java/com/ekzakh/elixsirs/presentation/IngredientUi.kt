@@ -15,9 +15,9 @@ data class IngredientUi(
         views[0].show(name)
     }
 
-    override fun type(): Int = INGREDIENT_TYPE
+    override fun type(): Int = INGREDIENT_UI_TYPE
 
     companion object {
-        private const val INGREDIENT_TYPE = 2
+        const val INGREDIENT_UI_TYPE = 2
     }
 }

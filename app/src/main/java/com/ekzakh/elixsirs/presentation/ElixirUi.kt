@@ -22,6 +22,6 @@ data class ElixirUi(
     override fun content(): String = name + effect
 
     companion object {
-        private const val ELIXIR_UI_TYPE = 1
+        const val ELIXIR_UI_TYPE = 1
     }
 }
