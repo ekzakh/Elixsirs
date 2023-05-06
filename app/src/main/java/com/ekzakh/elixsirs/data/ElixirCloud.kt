@@ -8,18 +8,20 @@ interface ElixirCloud {
 
     fun <T> map(mapper: Mapper<T>): T
 
+    fun hasIngredients(): Boolean
+
     interface Mapper<T> {
-        fun map(id: String, name: String, effects: String, ingredients: List<IngredientCloud>): T
+        fun map(id: String, name: String, effects: String?, ingredients: List<IngredientCloud>): T
 
         class Base(private val mapper: IngredientCloud.Mapper<IngredientDomain>) :
             Mapper<ElixirDomain> {
             override fun map(
                 id: String,
                 name: String,
-                effects: String,
+                effects: String?,
                 ingredients: List<IngredientCloud>,
             ): ElixirDomain =
-                ElixirDomain.Base(id, name, effects, ingredients.map { it.map(mapper) })
+                ElixirDomain.Base(id, name, effects ?: "", ingredients.map { it.map(mapper) })
         }
     }
 
@@ -29,10 +31,11 @@ interface ElixirCloud {
         @SerializedName("name")
         private val name: String,
         @SerializedName("effect")
-        private val effect: String,
+        private val effect: String?,
         @SerializedName("ingredients")
         private val ingredients: List<IngredientCloud.Base>,
     ) : ElixirCloud {
         override fun <T> map(mapper: Mapper<T>): T = mapper.map(id, name, effect, ingredients)
+        override fun hasIngredients(): Boolean = ingredients.isNotEmpty()
     }
 }

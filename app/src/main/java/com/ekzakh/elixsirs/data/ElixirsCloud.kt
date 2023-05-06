@@ -7,7 +7,9 @@ interface ElixirsCloud {
     fun <T> map(mapper: Mapper<T>): T
 
     class Base(private val elixirs: List<ElixirCloud>) : ElixirsCloud {
-        override fun <T> map(mapper: Mapper<T>): T = mapper.map(elixirs)
+        override fun <T> map(mapper: Mapper<T>): T {
+            return mapper.map(elixirs)
+        }
     }
 
     interface Mapper<T> {
@@ -15,7 +17,9 @@ interface ElixirsCloud {
 
         class Base(private val mapper: ElixirCloud.Mapper<ElixirDomain>) : Mapper<ElixirsDomain> {
             override fun map(elixirs: List<ElixirCloud>): ElixirsDomain {
-                val domainElixirs = elixirs.map { it.map(mapper) }
+                val domainElixirs = elixirs
+                    .filter { it.hasIngredients() }
+                    .map { it.map(mapper) }
                 return ElixirsDomain.Base(domainElixirs)
             }
         }

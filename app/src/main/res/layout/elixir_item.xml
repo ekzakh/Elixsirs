@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/elixir_bg"
+    android:padding="16dp"
     android:orientation="vertical">
 
     <com.github.johnnysc.coremvvm.presentation.adapter.MyTextView
