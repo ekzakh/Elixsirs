@@ -1,5 +1,6 @@
 package com.ekzakh.elixsirs.domain
 
+import com.ekzakh.elixsirs.presentation.ChangeExpanded
 import com.ekzakh.elixsirs.presentation.ElixirUi
 import com.ekzakh.elixsirs.presentation.IngredientUi
 
@@ -18,13 +19,13 @@ interface ElixirDomain {
     interface Mapper<T> {
         fun map(id: String, name: String, effect: String, ingredients: List<IngredientDomain>): T
 
-        class ToElixirUi : Mapper<ElixirUi> {
+        class ToElixirUi(private val changeExpanded: ChangeExpanded) : Mapper<ElixirUi> {
             override fun map(
                 id: String,
                 name: String,
                 effect: String,
                 ingredients: List<IngredientDomain>,
-            ): ElixirUi = ElixirUi(id, name, effect, false)
+            ): ElixirUi = ElixirUi.Base(id, name, effect, false, changeExpanded)
         }
 
         class ToIngredientsUi(private val mapper: IngredientDomain.Mapper<IngredientUi>) : Mapper<List<IngredientUi>> {

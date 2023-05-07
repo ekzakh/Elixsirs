@@ -12,4 +12,5 @@ class IconView : MyImageView {
         attrs,
         defStyleAttr
     )
+    override fun handleClick(listener: OnClickListener) = setOnClickListener(listener)
 }

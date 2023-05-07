@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Elixsirs</string>
+    <string name="error">Somethink went wrong</string>
 </resources>

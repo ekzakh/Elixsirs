@@ -1,6 +1,7 @@
 package com.ekzakh.elixsirs.presentation
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelStoreOwner
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
 
         viewModel.observe(this) { elixirsUi ->
             elixirsUi.map(elixirsAdapter)
+        }
+
+        viewModel.observeError(this) {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         }
 
         viewModel.observeProgress(this) { visibility ->
