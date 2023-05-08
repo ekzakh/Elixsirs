@@ -25,10 +25,6 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
         viewModel.observe(this) { elixirsUi ->
             elixirsUi.map(elixirsAdapter)
         }
-
-        viewModel.observeProgress(this) { visibility ->
-            visibility.apply(binding.progress)
-        }
     }
 
     override fun <T : ViewModel> provideViewModel(clazz: Class<T>, owner: ViewModelStoreOwner): T =

@@ -47,7 +47,6 @@ class MainModule(private val core: CoreModule) : Module<ElixirsViewModel.Base> {
                 errorHandler = DomainExceptionHandler.Mapper.Base(core)
             ),
             communications = ElixirsCommunications.Base(),
-            progressCommunication = core.provideProgressCommunication(),
             dispatchers = core.dispatchers()
         )
         return viewModel

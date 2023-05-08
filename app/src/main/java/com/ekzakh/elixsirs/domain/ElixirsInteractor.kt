@@ -4,10 +4,7 @@ import com.ekzakh.elixsirs.presentation.ElixirsUi
 import com.github.johnnysc.coremvvm.core.Dispatchers
 
 interface ElixirsInteractor {
-    suspend fun elixirs(
-        atFinish: () -> Unit,
-        successful: (ElixirsUi) -> Unit,
-    )
+    suspend fun elixirs(successful: (ElixirsUi) -> Unit)
 
     class Base(
         private val mapper: ElixirsDomain.Mapper<ElixirsUi>,
@@ -17,7 +14,6 @@ interface ElixirsInteractor {
     ) : ElixirsInteractor {
 
         override suspend fun elixirs(
-            atFinish: () -> Unit,
             successful: (ElixirsUi) -> Unit
         ) {
             try {
@@ -25,8 +21,6 @@ interface ElixirsInteractor {
                 dispatchers.changeToUI { successful.invoke(result) }
             } catch (error: Exception) {
                 dispatchers.changeToUI { successful.invoke(errorHandler.map(error)) }
-            } finally {
-                dispatchers.changeToUI { atFinish.invoke() }
             }
         }
     }

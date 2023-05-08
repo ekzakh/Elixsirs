@@ -50,12 +50,16 @@ interface ElixirsUi : Mapper.Unit<Mapper.Unit<List<ItemUi>>> {
     }
 
     data class Error(private val error: ItemUi) : ElixirsUi {
-        override fun changeExpanded(elixirId: String) {
-            TODO("Not yet implemented")
-        }
+        override fun changeExpanded(elixirId: String) = Unit
 
         override fun map(data: Mapper.Unit<List<ItemUi>>) {
             return data.map(listOf(error))
         }
+    }
+
+    data class Progress(private val progress: ItemUi) : ElixirsUi {
+        override fun map(data: Mapper.Unit<List<ItemUi>>) = data.map(listOf(progress))
+
+        override fun changeExpanded(elixirId: String) = Unit
     }
 }

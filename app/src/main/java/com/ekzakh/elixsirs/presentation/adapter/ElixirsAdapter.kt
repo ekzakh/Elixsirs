@@ -6,10 +6,12 @@ import com.github.johnnysc.coremvvm.presentation.adapter.ViewHolderFactoryChain
 interface ElixirsAdapter {
 
     class Elixirs : GenericAdapter.Base(
-        ElixirViewHolderFactoryChain(
-            IngredientViewHolderFactoryChain(
-                ErrorViewHolderFactoryChain(
-                    ViewHolderFactoryChain.Exception()
+        LoadingViewHolderFactoryChain(
+            ElixirViewHolderFactoryChain(
+                IngredientViewHolderFactoryChain(
+                    ErrorViewHolderFactoryChain(
+                        ViewHolderFactoryChain.Exception()
+                    )
                 )
             )
         )
