@@ -8,7 +8,9 @@ interface ElixirsAdapter {
     class Elixirs : GenericAdapter.Base(
         ElixirViewHolderFactoryChain(
             IngredientViewHolderFactoryChain(
-                ViewHolderFactoryChain.Exception(),
+                ErrorViewHolderFactoryChain(
+                    ViewHolderFactoryChain.Exception()
+                )
             )
         )
     )

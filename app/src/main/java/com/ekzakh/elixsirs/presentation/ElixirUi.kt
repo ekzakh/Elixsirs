@@ -43,7 +43,7 @@ interface ElixirUi : ItemUi {
             changeExpanded: ChangeExpanded
         ): T
 
-        class Expanded : Mapper<ElixirUi> {
+        class InverseExpanded : Mapper<ElixirUi> {
             override fun map(
                 id: String,
                 name: String,

@@ -6,6 +6,7 @@ import com.ekzakh.elixsirs.data.ElixirsCloud
 import com.ekzakh.elixsirs.data.ElixirsCloudDataSource
 import com.ekzakh.elixsirs.data.IngredientCloud
 import com.ekzakh.elixsirs.data.ProvideElixirsService
+import com.ekzakh.elixsirs.domain.DomainExceptionHandler
 import com.ekzakh.elixsirs.domain.ElixirDomain
 import com.ekzakh.elixsirs.domain.ElixirsDomain
 import com.ekzakh.elixsirs.domain.ElixirsInteractor
@@ -14,7 +15,6 @@ import com.ekzakh.elixsirs.presentation.ChangeExpanded
 import com.ekzakh.elixsirs.presentation.ElixirsCommunications
 import com.ekzakh.elixsirs.presentation.ElixirsViewModel
 import com.github.johnnysc.coremvvm.domain.HandleDomainError
-import com.github.johnnysc.coremvvm.presentation.HandleUiError
 import com.github.johnnysc.coremvvm.sl.CoreModule
 import com.github.johnnysc.coremvvm.sl.Module
 
@@ -44,11 +44,10 @@ class MainModule(private val core: CoreModule) : Module<ElixirsViewModel.Base> {
                 ),
                 repository = repository,
                 dispatchers = core.dispatchers(),
-                handleError = HandleUiError(core, core.provideGlobalErrorCommunication())
+                errorHandler = DomainExceptionHandler.Mapper.Base(core)
             ),
             communications = ElixirsCommunications.Base(),
             progressCommunication = core.provideProgressCommunication(),
-            errorCommunication = core.provideGlobalErrorCommunication(),
             dispatchers = core.dispatchers()
         )
         return viewModel

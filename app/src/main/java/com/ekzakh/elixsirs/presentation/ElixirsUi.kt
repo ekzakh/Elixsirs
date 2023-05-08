@@ -16,7 +16,7 @@ interface ElixirsUi : Mapper.Unit<Mapper.Unit<List<ItemUi>>> {
         }
 
         override fun changeExpanded(elixirId: String) {
-            val mapperExpanded = ElixirUi.Mapper.Expanded()
+            val mapperExpanded = ElixirUi.Mapper.InverseExpanded()
             val finalList = mutableListOf<ItemUi>()
             var scipNext = 0
 
@@ -46,6 +46,16 @@ interface ElixirsUi : Mapper.Unit<Mapper.Unit<List<ItemUi>>> {
             }
             uiList.clear()
             uiList.addAll(finalList)
+        }
+    }
+
+    data class Error(private val error: ItemUi) : ElixirsUi {
+        override fun changeExpanded(elixirId: String) {
+            TODO("Not yet implemented")
+        }
+
+        override fun map(data: Mapper.Unit<List<ItemUi>>) {
+            return data.map(listOf(error))
         }
     }
 }
