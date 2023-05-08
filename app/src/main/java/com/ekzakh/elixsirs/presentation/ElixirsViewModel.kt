@@ -10,9 +10,9 @@ interface ElixirsViewModel : ChangeExpanded {
         private val interactor: ElixirsInteractor,
         private val communications: ElixirsCommunications,
         dispatchers: Dispatchers,
-    ) : BaseViewModel<ElixirsUi>(communications, dispatchers), ElixirsViewModel, ChangeExpanded {
+    ) : BaseViewModel<ElixirsState>(communications, dispatchers), ElixirsViewModel, ChangeExpanded {
 
-        private var elixirs: ElixirsUi = ElixirsUi.Progress(LoadingUi())
+        private var elixirs: ElixirsState = ElixirsState.Progress(LoadingUi())
 
         init {
             communications.map(elixirs)
@@ -25,7 +25,7 @@ interface ElixirsViewModel : ChangeExpanded {
         }
 
         override fun changeExpanded(elixirId: String) {
-            elixirs.changeExpanded(elixirId)
+            (elixirs as ElixirsState.Base).changeExpanded(elixirId)
             communications.map(elixirs)
         }
     }

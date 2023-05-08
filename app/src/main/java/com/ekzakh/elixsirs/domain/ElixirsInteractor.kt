@@ -1,26 +1,24 @@
 package com.ekzakh.elixsirs.domain
 
-import com.ekzakh.elixsirs.presentation.ElixirsUi
+import com.ekzakh.elixsirs.presentation.ElixirsState
 import com.github.johnnysc.coremvvm.core.Dispatchers
 
 interface ElixirsInteractor {
-    suspend fun elixirs(successful: (ElixirsUi) -> Unit)
+    suspend fun elixirs(onResult: (ElixirsState) -> Unit)
 
     class Base(
-        private val mapper: ElixirsDomain.Mapper<ElixirsUi>,
+        private val mapper: ElixirsDomain.Mapper<ElixirsState>,
         private val repository: ElixirsRepository,
         private val dispatchers: Dispatchers,
-        private val errorHandler: DomainExceptionHandler.Mapper<ElixirsUi>
+        private val errorHandler: DomainExceptionHandler.Mapper<ElixirsState>
     ) : ElixirsInteractor {
 
-        override suspend fun elixirs(
-            successful: (ElixirsUi) -> Unit
-        ) {
+        override suspend fun elixirs(onResult: (ElixirsState) -> Unit) {
             try {
                 val result = repository.elixirs().map(mapper)
-                dispatchers.changeToUI { successful.invoke(result) }
+                dispatchers.changeToUI { onResult.invoke(result) }
             } catch (error: Exception) {
-                dispatchers.changeToUI { successful.invoke(errorHandler.map(error)) }
+                dispatchers.changeToUI { onResult.invoke(errorHandler.map(error)) }
             }
         }
     }
