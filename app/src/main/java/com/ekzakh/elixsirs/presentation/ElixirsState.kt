@@ -5,7 +5,7 @@ import com.github.johnnysc.coremvvm.presentation.adapter.ItemUi
 
 interface ElixirsState : Mapper.Unit<Mapper.Unit<List<ItemUi>>>, ChangeExpanded {
 
-    data class Base(private var list: List<ItemUi>) : ElixirsState {
+    data class Success(private var list: List<ItemUi>) : ElixirsState {
 
         private var uiList = list.filter { it.type() == ElixirUi.ELIXIR_UI_TYPE }.toMutableList()
 
@@ -48,10 +48,7 @@ interface ElixirsState : Mapper.Unit<Mapper.Unit<List<ItemUi>>>, ChangeExpanded 
     }
 
     data class Error(private val error: ItemUi) : ElixirsState {
-        override fun map(data: Mapper.Unit<List<ItemUi>>) {
-            return data.map(listOf(error))
-        }
-
+        override fun map(data: Mapper.Unit<List<ItemUi>>) = data.map(listOf(error))
         override fun changeExpanded(elixirId: String) = Unit
     }
 

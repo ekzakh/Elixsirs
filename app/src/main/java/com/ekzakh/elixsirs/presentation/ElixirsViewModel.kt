@@ -12,7 +12,7 @@ interface ElixirsViewModel : ChangeExpanded, Retry {
         dispatchers: Dispatchers,
     ) : BaseViewModel<ElixirsState>(communications, dispatchers), ElixirsViewModel {
 
-        private var elixirs: ElixirsState = ElixirsState.Base(emptyList())
+        private var elixirs: ElixirsState = ElixirsState.Success(emptyList())
 
         init {
             init()
