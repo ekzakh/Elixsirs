@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
     <com.github.johnnysc.coremvvm.presentation.adapter.MyTextView
-        android:id="@+id/name"
+        android:id="@+id/nameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -21,14 +21,14 @@
         tools:text="Strength Potion" />
 
     <com.github.johnnysc.coremvvm.presentation.adapter.MyTextView
-        android:id="@+id/effect"
+        android:id="@+id/effectTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toStartOf="@+id/dropIcon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/nameTextView"
         tools:text="Superhuman strength" />
 
     <com.ekzakh.elixsirs.presentation.IconView

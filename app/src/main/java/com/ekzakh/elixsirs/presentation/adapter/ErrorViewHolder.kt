@@ -6,5 +6,7 @@ import com.github.johnnysc.coremvvm.presentation.adapter.ItemUi
 
 class ErrorViewHolder(private val binding: ErrorItemBinding) :
     GenericViewHolder<ItemUi>(binding.root) {
-    override fun bind(item: ItemUi) = item.show(binding.error)
+    override fun bind(item: ItemUi) = with(binding) {
+        item.show(errorTextView, retryButton)
+    }
 }

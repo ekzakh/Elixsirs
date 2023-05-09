@@ -6,5 +6,7 @@ import com.github.johnnysc.coremvvm.presentation.adapter.ItemUi
 
 class IngredientViewHolder(private val binding: IngredientItemBinding) :
     GenericViewHolder<ItemUi>(binding.root) {
-    override fun bind(item: ItemUi) = item.show(binding.name)
+    override fun bind(item: ItemUi) = with(binding) {
+        item.show(nameTextView)
+    }
 }

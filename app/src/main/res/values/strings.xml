@@ -3,4 +3,5 @@
     <string name="error">Something went wrong</string>
     <string name="no_internet">No internet connection</string>
     <string name="service_unavailable">Service unavailable</string>
+    <string name="retry">Retry</string>
 </resources>

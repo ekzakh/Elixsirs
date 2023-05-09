@@ -14,6 +14,7 @@ import com.ekzakh.elixsirs.domain.IngredientDomain
 import com.ekzakh.elixsirs.presentation.ChangeExpanded
 import com.ekzakh.elixsirs.presentation.ElixirsCommunications
 import com.ekzakh.elixsirs.presentation.ElixirsViewModel
+import com.ekzakh.elixsirs.presentation.Retry
 import com.github.johnnysc.coremvvm.domain.HandleDomainError
 import com.github.johnnysc.coremvvm.sl.CoreModule
 import com.github.johnnysc.coremvvm.sl.Module
@@ -30,10 +31,15 @@ class MainModule(private val core: CoreModule) : Module<ElixirsViewModel.Base> {
             mapper = ElixirsCloud.Mapper.Base(ElixirCloud.Mapper.Base(IngredientCloud.Mapper.Base()))
         )
 
-        var viewModel: ChangeExpanded = ChangeExpanded.Empty()
+        var viewModel: ElixirsViewModel = ElixirsViewModel.Empty()
         val changeExpanded = object : ChangeExpanded {
             override fun changeExpanded(elixirId: String) {
                 viewModel.changeExpanded(elixirId)
+            }
+        }
+        val retry = object : Retry {
+            override fun retry() {
+                viewModel.retry()
             }
         }
         viewModel = ElixirsViewModel.Base(
@@ -44,7 +50,7 @@ class MainModule(private val core: CoreModule) : Module<ElixirsViewModel.Base> {
                 ),
                 repository = repository,
                 dispatchers = core.dispatchers(),
-                errorHandler = DomainExceptionHandler.Mapper.Base(core)
+                errorHandler = DomainExceptionHandler.Mapper.Base(core, retry)
             ),
             communications = ElixirsCommunications.Base(),
             dispatchers = core.dispatchers()

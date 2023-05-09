@@ -4,18 +4,22 @@ import com.ekzakh.elixsirs.domain.ElixirsInteractor
 import com.github.johnnysc.coremvvm.core.Dispatchers
 import com.github.johnnysc.coremvvm.presentation.BaseViewModel
 
-interface ElixirsViewModel : ChangeExpanded {
+interface ElixirsViewModel : ChangeExpanded, Retry {
 
     class Base(
         private val interactor: ElixirsInteractor,
         private val communications: ElixirsCommunications,
         dispatchers: Dispatchers,
-    ) : BaseViewModel<ElixirsState>(communications, dispatchers), ElixirsViewModel, ChangeExpanded {
+    ) : BaseViewModel<ElixirsState>(communications, dispatchers), ElixirsViewModel {
 
-        private var elixirs: ElixirsState = ElixirsState.Progress(LoadingUi())
+        private var elixirs: ElixirsState = ElixirsState.Base(emptyList())
 
         init {
-            communications.map(elixirs)
+            init()
+        }
+
+        private fun init() {
+            communications.map(ElixirsState.Progress(LoadingUi()))
             handle {
                 interactor.elixirs {
                     elixirs = it
@@ -25,8 +29,18 @@ interface ElixirsViewModel : ChangeExpanded {
         }
 
         override fun changeExpanded(elixirId: String) {
-            (elixirs as ElixirsState.Base).changeExpanded(elixirId)
+            elixirs.changeExpanded(elixirId)
             communications.map(elixirs)
         }
+
+        override fun retry() {
+            init()
+        }
+    }
+
+    class Empty : ElixirsViewModel {
+        override fun changeExpanded(elixirId: String) = Unit
+
+        override fun retry() = Unit
     }
 }
