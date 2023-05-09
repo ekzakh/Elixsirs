@@ -3,6 +3,7 @@ package com.ekzakh.elixsirs.domain
 import com.ekzakh.elixsirs.presentation.ChangeExpanded
 import com.ekzakh.elixsirs.presentation.ElixirUi
 import com.ekzakh.elixsirs.presentation.IngredientUi
+import com.github.johnnysc.coremvvm.presentation.adapter.ItemUi
 
 interface ElixirDomain {
 
@@ -19,6 +20,26 @@ interface ElixirDomain {
     interface Mapper<T> {
         fun map(id: String, name: String, effect: String, ingredients: List<IngredientDomain>): T
 
+        class Base(
+            private val changeExpanded: ChangeExpanded,
+            private val mapper: IngredientDomain.Mapper<IngredientUi>
+        ) : Mapper<List<ItemUi>> {
+
+            override fun map(
+                id: String,
+                name: String,
+                effect: String,
+                ingredients: List<IngredientDomain>
+            ): List<ItemUi> {
+                val finalList = mutableListOf<ItemUi>()
+                finalList.add(ElixirUi.Base(id, name, effect, false, changeExpanded))
+                ingredients.forEach {
+                    finalList.add(it.map(mapper))
+                }
+                return finalList
+            }
+        }
+
         class ToElixirUi(private val changeExpanded: ChangeExpanded) : Mapper<ElixirUi> {
             override fun map(
                 id: String,
@@ -28,7 +49,8 @@ interface ElixirDomain {
             ): ElixirUi = ElixirUi.Base(id, name, effect, false, changeExpanded)
         }
 
-        class ToIngredientsUi(private val mapper: IngredientDomain.Mapper<IngredientUi>) : Mapper<List<IngredientUi>> {
+        class ToIngredientsUi(private val mapper: IngredientDomain.Mapper<IngredientUi>) :
+            Mapper<List<IngredientUi>> {
             override fun map(
                 id: String,
                 name: String,

@@ -8,7 +8,7 @@ interface ElixirsInteractor {
     suspend fun elixirs(onResult: (ElixirsState) -> Unit)
 
     class Base(
-        private val mapper: ElixirsDomain.Mapper<List<ItemUi>>,
+        private val mapper: ElixirDomain.Mapper<List<ItemUi>>,
         private val repository: ElixirsRepository,
         private val dispatchers: Dispatchers,
         private val errorHandler: DomainExceptionHandler.Mapper<ItemUi>
@@ -16,7 +16,7 @@ interface ElixirsInteractor {
 
         override suspend fun elixirs(onResult: (ElixirsState) -> Unit) {
             try {
-                val result = repository.elixirs().map(mapper)
+                val result = repository.elixirs().flatMap { it.map(mapper) }
                 dispatchers.changeToUI { onResult.invoke(ElixirsState.Success(result)) }
             } catch (error: Exception) {
                 dispatchers.changeToUI {

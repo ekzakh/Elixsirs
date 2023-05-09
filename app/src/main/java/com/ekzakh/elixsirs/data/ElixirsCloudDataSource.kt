@@ -5,15 +5,14 @@ import com.github.johnnysc.coremvvm.data.HandleError
 
 interface ElixirsCloudDataSource {
 
-    suspend fun elixirs(): ElixirsCloud
+    suspend fun elixirs(): List<ElixirCloud>
 
     class Base(
         private val elixirService: ElixirService,
         handleError: HandleError,
     ) : CloudDataSource.Abstract(handleError), ElixirsCloudDataSource {
-        override suspend fun elixirs(): ElixirsCloud = handle {
-            val result = elixirService.elixirs()
-            ElixirsCloud.Base(result)
+        override suspend fun elixirs(): List<ElixirCloud> = handle {
+            elixirService.elixirs().filter { it.hasIngredients() }
         }
     }
 }

@@ -2,13 +2,11 @@ package com.ekzakh.elixsirs.sl
 
 import com.ekzakh.elixsirs.data.BaseElixirsRepository
 import com.ekzakh.elixsirs.data.ElixirCloud
-import com.ekzakh.elixsirs.data.ElixirsCloud
 import com.ekzakh.elixsirs.data.ElixirsCloudDataSource
 import com.ekzakh.elixsirs.data.IngredientCloud
 import com.ekzakh.elixsirs.data.ProvideElixirsService
 import com.ekzakh.elixsirs.domain.DomainExceptionHandler
 import com.ekzakh.elixsirs.domain.ElixirDomain
-import com.ekzakh.elixsirs.domain.ElixirsDomain
 import com.ekzakh.elixsirs.domain.ElixirsInteractor
 import com.ekzakh.elixsirs.domain.IngredientDomain
 import com.ekzakh.elixsirs.presentation.ChangeExpanded
@@ -28,7 +26,7 @@ class MainModule(private val core: CoreModule) : Module<ElixirsViewModel.Base> {
                 ).elixirService(),
                 HandleDomainError(),
             ),
-            mapper = ElixirsCloud.Mapper.Base(ElixirCloud.Mapper.Base(IngredientCloud.Mapper.Base()))
+            mapper = ElixirCloud.Mapper.Base(IngredientCloud.Mapper.Base())
         )
 
         var viewModel: ElixirsViewModel = ElixirsViewModel.Empty()
@@ -44,10 +42,7 @@ class MainModule(private val core: CoreModule) : Module<ElixirsViewModel.Base> {
         }
         viewModel = ElixirsViewModel.Base(
             interactor = ElixirsInteractor.Base(
-                mapper = ElixirsDomain.Mapper.Base(
-                    ElixirDomain.Mapper.ToElixirUi(changeExpanded),
-                    ElixirDomain.Mapper.ToIngredientsUi(IngredientDomain.Mapper.Base())
-                ),
+                mapper = ElixirDomain.Mapper.Base(changeExpanded, IngredientDomain.Mapper.Base()),
                 repository = repository,
                 dispatchers = core.dispatchers(),
                 errorHandler = DomainExceptionHandler.Mapper.Base(core, retry)
