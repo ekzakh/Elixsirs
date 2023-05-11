@@ -2,8 +2,8 @@ package com.ekzakh.elixsirs.domain
 
 import com.ekzakh.elixsirs.presentation.ChangeExpanded
 import com.ekzakh.elixsirs.presentation.ElixirUi
+import com.ekzakh.elixsirs.presentation.ElixirsUi
 import com.ekzakh.elixsirs.presentation.IngredientUi
-import com.github.johnnysc.coremvvm.presentation.adapter.ItemUi
 
 interface ElixirDomain {
 
@@ -23,40 +23,21 @@ interface ElixirDomain {
         class Base(
             private val changeExpanded: ChangeExpanded,
             private val mapper: IngredientDomain.Mapper<IngredientUi>
-        ) : Mapper<List<ItemUi>> {
+        ) : Mapper<List<ElixirsUi>> {
 
             override fun map(
                 id: String,
                 name: String,
                 effect: String,
                 ingredients: List<IngredientDomain>
-            ): List<ItemUi> {
-                val finalList = mutableListOf<ItemUi>()
+            ): List<ElixirsUi> {
+                val finalList = mutableListOf<ElixirsUi>()
                 finalList.add(ElixirUi.Base(id, name, effect, false, changeExpanded))
                 ingredients.forEach {
                     finalList.add(it.map(mapper))
                 }
                 return finalList
             }
-        }
-
-        class ToElixirUi(private val changeExpanded: ChangeExpanded) : Mapper<ElixirUi> {
-            override fun map(
-                id: String,
-                name: String,
-                effect: String,
-                ingredients: List<IngredientDomain>,
-            ): ElixirUi = ElixirUi.Base(id, name, effect, false, changeExpanded)
-        }
-
-        class ToIngredientsUi(private val mapper: IngredientDomain.Mapper<IngredientUi>) :
-            Mapper<List<IngredientUi>> {
-            override fun map(
-                id: String,
-                name: String,
-                effect: String,
-                ingredients: List<IngredientDomain>,
-            ): List<IngredientUi> = ingredients.map { it.map(mapper) }
         }
     }
 }

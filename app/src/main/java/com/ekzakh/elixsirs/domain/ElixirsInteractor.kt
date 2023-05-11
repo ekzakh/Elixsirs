@@ -1,6 +1,7 @@
 package com.ekzakh.elixsirs.domain
 
 import com.ekzakh.elixsirs.presentation.ElixirsState
+import com.ekzakh.elixsirs.presentation.ElixirsUi
 import com.github.johnnysc.coremvvm.core.Dispatchers
 import com.github.johnnysc.coremvvm.presentation.adapter.ItemUi
 
@@ -8,7 +9,7 @@ interface ElixirsInteractor {
     suspend fun elixirs(onResult: (ElixirsState) -> Unit)
 
     class Base(
-        private val mapper: ElixirDomain.Mapper<List<ItemUi>>,
+        private val mapper: ElixirDomain.Mapper<List<ElixirsUi>>,
         private val repository: ElixirsRepository,
         private val dispatchers: Dispatchers,
         private val errorHandler: DomainExceptionHandler.Mapper<ItemUi>

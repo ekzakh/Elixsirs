@@ -5,7 +5,7 @@ import com.github.johnnysc.coremvvm.presentation.adapter.ItemUi
 
 interface ElixirsState : Mapper.Unit<Mapper.Unit<List<ItemUi>>>, ChangeExpanded {
 
-    data class Success(private var list: List<ItemUi>) : ElixirsState {
+    data class Success(private var list: List<ElixirsUi>) : ElixirsState {
 
         private var uiList = list.filter { it.type() == ElixirUi.ELIXIR_UI_TYPE }.toMutableList()
 
@@ -14,16 +14,16 @@ interface ElixirsState : Mapper.Unit<Mapper.Unit<List<ItemUi>>>, ChangeExpanded 
         }
 
         override fun changeExpanded(elixirId: String) {
-            val mapperExpanded = ElixirUi.Mapper.InverseExpanded()
-            val finalList = mutableListOf<ItemUi>()
+            val mapperExpanded = ElixirsUi.Mapper.InverseExpanded()
+            val finalList = mutableListOf<ElixirsUi>()
             var scipNext = 0
 
-            uiList.forEach { itemUi ->
-                if (itemUi.id() == elixirId) {
-                    val wasExpanded = (itemUi as ElixirUi).map(ElixirUi.Mapper.IsExpanded())
-                    var index = list.indexOf(itemUi) + 1
-                    val ingredients = mutableListOf<ItemUi>()
-                    val changedItem = itemUi.map(mapperExpanded)
+            uiList.forEach { elixirUi ->
+                if (elixirUi.id() == elixirId) {
+                    val wasExpanded = elixirUi.map(ElixirsUi.Mapper.IsExpanded())
+                    var index = list.indexOf(elixirUi) + 1
+                    val ingredients = mutableListOf<ElixirsUi>()
+                    val changedItem = elixirUi.map(mapperExpanded)
                     list = list.map { item ->
                         if (item.id() == elixirId) changedItem else item
                     }
@@ -39,7 +39,7 @@ interface ElixirsState : Mapper.Unit<Mapper.Unit<List<ItemUi>>>, ChangeExpanded 
                 } else if (scipNext > 0) {
                     scipNext--
                 } else {
-                    finalList.add(itemUi)
+                    finalList.add(elixirUi)
                 }
             }
             uiList.clear()
