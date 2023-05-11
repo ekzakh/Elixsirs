@@ -22,7 +22,7 @@ interface ElixirsUi : ItemUi {
                 effect: String,
                 isExpanded: Boolean,
                 changeExpanded: ChangeExpanded
-            ): ElixirUi = ElixirUi.Base(id, name, effect, !isExpanded, changeExpanded)
+            ): ElixirUi = ElixirUi(id, name, effect, !isExpanded, changeExpanded)
         }
 
         class IsExpanded : Mapper<Boolean> {

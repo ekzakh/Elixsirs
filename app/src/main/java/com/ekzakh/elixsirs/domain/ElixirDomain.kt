@@ -32,7 +32,7 @@ interface ElixirDomain {
                 ingredients: List<IngredientDomain>
             ): List<ElixirsUi> {
                 val finalList = mutableListOf<ElixirsUi>()
-                finalList.add(ElixirUi.Base(id, name, effect, false, changeExpanded))
+                finalList.add(ElixirUi(id, name, effect, false, changeExpanded))
                 ingredients.forEach {
                     finalList.add(it.map(mapper))
                 }
